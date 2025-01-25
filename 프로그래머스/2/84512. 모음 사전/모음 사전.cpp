@@ -3,25 +3,25 @@
 
 using namespace std;
 
-int dfs(string a, int& count, string word) {
-    string aeiou = "AEIOU";
+int count = 0;
+
+void dfs(string now, string word, string a, int& answer) {
+    if (now == word) {
+        answer = count;
+        return;
+    }
     
-    if (a == word)
-        return count;
-    
-    if (a.size() >= 5)
-        return -1;
+    if(now.size() >= 5)
+        return;
     
     for (int i = 0; i < 5; i++) {
         count++;
-        int result = dfs(a + aeiou[i], count, word);
-        if (result != -1)
-            return result;
+        dfs(now + a[i], word, a, answer);
     }
-    return -1;
 }
 
 int solution(string word) {
     int answer = 0;
-    return dfs("", answer, word);
+    dfs("", word, "AEIOU", answer);
+    return answer;
 }
