@@ -4,20 +4,19 @@
 
 using namespace std;
 
-bool cmp(int num1, int num2) {
+bool check(int& num1, int& num2) {
     string a = to_string(num1);
     string b = to_string(num2);
-    return a + b > b + a;
+    return a+b > b+a;
 }
 
 string solution(vector<int> numbers) {
     string answer = "";
     
-    sort(numbers.begin(), numbers.end(), cmp);
+    sort(numbers.begin(), numbers.end(), check);
     
-    for (const auto& i: numbers) {
-        answer += to_string(i);
-    }
+    for (int& num : numbers)
+        answer += to_string(num);
     
     if (answer[0] == '0')
         return "0";
