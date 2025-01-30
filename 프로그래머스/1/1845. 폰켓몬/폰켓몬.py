@@ -1,7 +1,9 @@
 def solution(nums):
+    a = set()
+    for num in nums:
+        a.add(num)
     
-    answer = len(set(nums));
-    if answer >= len(nums)/2:
-        return len(nums)/2
+    if len(a) < len(nums)/2:
+        return len(a)
     else:
-        return answer
+        return len(nums)/2
