@@ -1,13 +1,13 @@
 def solution(clothes):
     answer = 1
-    dict = {}
+    d = dict()
     for cloth in clothes:
-        if cloth[1] not in dict:
-            dict[cloth[1]] = 1
+        if cloth[1] in d:
+            d[cloth[1]] += 1
         else:
-            dict[cloth[1]] += 1
-    
-    for val in dict.values():
-        answer *= val+1
+            d[cloth[1]] = 1
+            
+    for num in d.values():
+        answer *= num+1
     
     return answer-1
