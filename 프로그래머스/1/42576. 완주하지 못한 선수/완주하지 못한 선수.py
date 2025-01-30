@@ -1,14 +1,14 @@
 def solution(participant, completion):
     answer = ''
-    d = dict()
+    a = dict()
     for name in completion:
-        if name in d:
-            d[name] += 1
+        if name in a:
+            a[name] += 1
         else:
-            d[name] = 1
-        
+            a[name] = 1
     for name in participant:
-        if name in d and d[name] > 0:
-            d[name] -= 1
-        else:
+        if name not in a or a[name] == 0:
             return name
+        else:
+            a[name] -= 1
+    return participant[-1]
