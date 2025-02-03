@@ -1,11 +1,7 @@
 def solution(array, commands):
-    answer = [];
-    
-    for command in commands:
-        temp = [];
-        for i in range (command[0]-1, command[1]):
-            temp.append(array[i]);
-        temp.sort();
-        answer.append(temp[command[2]-1]);
-            
+    answer = []
+    for nums in commands:
+        temp = array[nums[0]-1 : nums[1]]
+        temp.sort()
+        answer.append(temp[nums[2]-1])
     return answer
