@@ -1,17 +1,17 @@
 from functools import cmp_to_key
 
+def cmp(a, b):
+    if a + b > b + a:
+        return -1
+    elif a + b < b + a:
+        return 1
+    else:
+        return 0
+
 def solution(numbers):
     answer = ''
     
-    def cmp(x, y):
-        if x + y > y + x:
-            return -1
-        elif x + y < y + x:
-            return 1
-        else:
-            return 0
-    
-    numbers = list(map(str, numbers))
+    numbers = list(map(str, numbers)) 
     
     sorted_numbers = sorted(numbers, key = cmp_to_key(cmp))
     
