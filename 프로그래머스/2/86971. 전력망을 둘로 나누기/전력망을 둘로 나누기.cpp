@@ -1,58 +1,44 @@
 #include <string>
 #include <vector>
-#include <math.h>
 #include <queue>
-
+#include <math.h>
 using namespace std;
 
-int BFS(vector<vector<int>>& tree, int sp, int cp) {
-    int cnt = 1;
-    queue<int> q;
-    vector<int> visited(101);
-    visited[sp] = 1;
-    
-    for (int branch : tree[sp])
-        if(!visited[branch] && branch != cp) {
-            visited[branch] = 1;
-            q.push(branch);
-            cnt++;
-        }
-    while (!q.empty()) {
-        int now = q.front(); q.pop();
-        
-        for (int branch : tree[now])
-            if (!visited[branch]) {
-                visited[branch] = 1;
-                q.push(branch);
-                cnt++;
-            }
-    }
-    return cnt;
-}
-
-
-
-
-
-
-
 int solution(int n, vector<vector<int>> wires) {
-    int answer = 101;
-    
-    vector<vector<int>> tree(101);
-    //그래프관계 인접리스트 만들기
-    for (vector<int> wire : wires) {
-        tree[wire[0]].push_back(wire[1]);
-        tree[wire[1]].push_back(wire[0]);
+    int answer = n;
+    vector<vector<int>> adjList(n+1);
+    for (const auto& wire: wires) {
+        adjList[wire[0]].push_back(wire[1]);
+        adjList[wire[1]].push_back(wire[0]);
     }
     
-    for (vector<int> wire : wires) {
-        int rhs = BFS(tree, wire[0], wire[1]);
+    for (auto& wire: wires) {
+        queue<int> q;
+        vector<int> visited(n+1, 0);
+        int count = 1;
+        visited[wire[0]] = 1;
+        for (int& i : adjList[wire[0]])
+            if (i != wire[1] && !visited[i]) {
+                visited[i] = 1;
+                q.push(i);
+                count++;
+            }
+        while(!q.empty()) {
+            int current = q.front(); q.pop();
+            
+            for (auto& i : adjList[current]) {
+                if (visited[i] != 1) {
+                    visited[i] = 1;
+                    q.push(i);
+                    count++;
+                }
+            }
+        }
+        int rhs = count;
         int lhs = n - rhs;
-        
-        if(abs(rhs-lhs) < answer)
-            answer = abs(rhs-lhs);
+        int gap = abs(rhs - lhs);
+        if (gap < answer)
+            answer = gap;
     }
-    
     return answer;
 }
