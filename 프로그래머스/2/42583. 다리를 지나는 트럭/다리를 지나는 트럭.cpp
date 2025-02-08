@@ -5,26 +5,32 @@
 using namespace std;
 
 int solution(int bridge_length, int weight, vector<int> truck_weights) {
-    int answer = bridge_length;
-    queue<int> bridge;
+    int time = 0;
     int nowWeight = 0;
+    queue<int> bridge;
+    queue<int> wait;
     
-    for (int i = 0; i < truck_weights.size(); i++) {
-        if (!bridge.empty() && bridge.size() == bridge_length) {
-            nowWeight -= bridge.front();
-            bridge.pop();
-        }
-        
-        
-        if (nowWeight + truck_weights[i] <= weight) {
-            bridge.push(truck_weights[i]);
-            nowWeight += truck_weights[i];
-        }
-        else {
-            bridge.push(0);
-            i--;
-        }
-        answer++;
+    while(bridge.size() < bridge_length)
+        bridge.push(0);
+    
+    for (int& i : truck_weights) {
+        wait.push(i);
     }
-    return answer;
+    
+    while(!bridge.empty()) {
+        nowWeight -= bridge.front(); bridge.pop();
+        
+        if (!wait.empty()) {
+            if (nowWeight+wait.front() <= weight) {
+                bridge.push(wait.front()); 
+                nowWeight += wait.front();
+                wait.pop();
+            }
+            else
+                bridge.push(0);
+        }
+        time++;
+    }
+    
+    return time;
 }
