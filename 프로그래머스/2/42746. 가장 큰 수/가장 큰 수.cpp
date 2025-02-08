@@ -4,19 +4,18 @@
 
 using namespace std;
 
-bool check(int& num1, int& num2) {
-    string a = to_string(num1);
-    string b = to_string(num2);
-    return a+b > b+a;
+bool cmp(int a, int b) {
+    string str_a = to_string(a);
+    string str_b = to_string(b);
+    return str_a + str_b > str_b + str_a;
 }
 
 string solution(vector<int> numbers) {
     string answer = "";
+    sort(numbers.begin(), numbers.end(), cmp);
     
-    sort(numbers.begin(), numbers.end(), check);
-    
-    for (int& num : numbers)
-        answer += to_string(num);
+    for (int& i : numbers)
+        answer += to_string(i);
     
     if (answer[0] == '0')
         return "0";
