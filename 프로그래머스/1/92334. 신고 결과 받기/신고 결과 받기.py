@@ -1,12 +1,14 @@
 def solution(id_list, report, k):
-    answer = [0] * len(id_list)  ##answer초기화
-    stop = {x : 0 for x in id_list}  ##stop dict초기화
+    answer = [0]*len(id_list)
+    dict = {name : 0 for name in id_list}
     
-    for r in set(report):
-        stop[r.split()[1]] += 1
+    for case in set(report):
+        ing, ed = case.split()
+        dict[ed] += 1
     
-    for r in set(report):
-        if stop[r.split()[1]] >= k:
-            answer[id_list.index(r.split()[0])] += 1
+    for case in set(report):
+        ing, ed = case.split()
+        if dict[ed] >= k: answer[id_list.index(ing)] += 1
+            
     
     return answer
