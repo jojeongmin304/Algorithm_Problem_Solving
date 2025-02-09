@@ -1,13 +1,11 @@
 def solution(phone_book):
-    answer = True
     a = set(phone_book)
     
-    for num in phone_book:
-        str = ""
-        for t in num:
-            str += t
-            if str == num: break
-            if str in a:
+    for number in phone_book:
+        temp = "";
+        for num in number:
+            temp += num
+            if temp == number: break
+            if temp in a:
                 return False
-    
-    return answer
+    return True
