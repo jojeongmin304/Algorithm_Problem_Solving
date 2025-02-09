@@ -1,39 +1,37 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
-bool compareGenre(const pair<string, int> &a, const pair<string, int> &b) {
+bool gencmp(pair<string, int>& a, pair<string, int>& b) {
     return a.second > b.second;
 }
 
-bool compareSong(const pair<int, int> &a, const pair<int, int> &b) {
+bool songcmp(pair<int, int>& a, pair<int, int>& b) {
     if (a.second == b.second)
-        return a.first < b.first;  //first는 고유번호
-    return a.second > b.second;  //second는 재생횟수
+        return a.first < b.first;
+    return a.second > b.second;
 }
 
 vector<int> solution(vector<string> genres, vector<int> plays) {
     vector<int> answer;
-    unordered_map<string, vector<pair<int, int>>> genres_dict; //장르별 각 곡
-    unordered_map<string, int> play_dict;  //장르별 총 재생횟수
+    unordered_map<string, int> genres_dict;
+    unordered_map<string, vector<pair<int,int>>> songs_dict;
     
     for (int i = 0; i < genres.size(); i++) {
-        genres_dict[genres[i]].push_back({i, plays[i]});
-        play_dict[genres[i]] += plays[i];
+        genres_dict[genres[i]] += plays[i];
+        songs_dict[genres[i]].push_back({i, plays[i]});
     }
     
-    vector<pair<string,int>> sorted_genres(play_dict.begin(), play_dict.end());
-    sort(sorted_genres.begin(), sorted_genres.end(), compareGenre);
+    vector<pair<string, int>> sorted_genres(genres_dict.begin(), genres_dict.end());
+    sort(sorted_genres.begin(), sorted_genres.end(), gencmp);
     
-    for (auto &genre : sorted_genres) {
-        auto& songs = genres_dict[genre.first];
-        sort(songs.begin(), songs.end(), compareSong);
-        
-        for (int i = 0; i < min(2, (int)songs.size()); i++) {
-            answer.push_back(songs[i].first);
+    for (auto& genre : sorted_genres) {
+        sort(songs_dict[genre.first].begin(), songs_dict[genre.first].end(),songcmp);
+        for (int i = 0; i < min(2, (int)songs_dict[genre.first].size()); i++) {
+            answer.push_back(songs_dict[genre.first][i].first);
         }
     }
     
