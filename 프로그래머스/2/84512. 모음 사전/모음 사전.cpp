@@ -5,23 +5,23 @@ using namespace std;
 
 int count = 0;
 
-void dfs(string now, string word, string a, int& answer) {
-    if (now == word) {
+void DFS(string current, string goal, string AEIOU,int& answer) {
+    if (current == goal) {
         answer = count;
         return;
     }
-    
-    if(now.size() >= 5)
+    if (current.size() >= 5)
         return;
     
     for (int i = 0; i < 5; i++) {
         count++;
-        dfs(now + a[i], word, a, answer);
+        DFS(current+AEIOU[i], goal, AEIOU, answer);
     }
 }
 
 int solution(string word) {
     int answer = 0;
-    dfs("", word, "AEIOU", answer);
+    DFS("", word, "AEIOU", answer);
+    
     return answer;
 }
