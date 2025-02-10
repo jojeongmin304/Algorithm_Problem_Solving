@@ -14,10 +14,9 @@ vector<int> solution(vector<string> operations) {
     
     for (const auto& op : operations) {
         if (op[0] == 'I') {
-            int num = stoi(op.substr(2));
-            maxq.push(num);
-            minq.push(num);
-            count[num]++;
+            maxq.push(stoi(op.substr(2)));
+            minq.push(stoi(op.substr(2)));
+            count[stoi(op.substr(2))]++;
             size++;
         }
         else if (op[0] == 'D' && size > 0) {
@@ -32,7 +31,7 @@ vector<int> solution(vector<string> operations) {
             }
             else {
                 while(!minq.empty() && count[minq.top()] == 0)
-                    minq.pop();  //이미 삭제된 값들은 정리
+                    minq.pop();
                 if (!minq.empty()) {
                     count[minq.top()]--;
                     minq.pop();
@@ -41,12 +40,12 @@ vector<int> solution(vector<string> operations) {
             }
         }
     }
-    //마지막 정리
     while(!maxq.empty() && count[maxq.top()] == 0)
         maxq.pop();
     while(!minq.empty() && count[minq.top()] == 0)
         minq.pop();
     
-    if (size == 0) return {0, 0};
+    if (size == 0) return{0, 0};
+    
     return {maxq.top(), minq.top()};
 }
