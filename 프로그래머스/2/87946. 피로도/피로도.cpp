@@ -1,30 +1,36 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
-bool cmp (vector<int>& a, vector<int>& b) {
-    return a[0] < b[0];
+int answer = 0;
+
+void DFS(int current, vector<int>& check, int& fatigue, int count, vector<vector<int>> dungeons) {
+    //재귀종료조건
+    if (fatigue < dungeons[current][0])
+        return;
+    
+    if (count > answer) answer = count;
+    check[current]++;
+    fatigue -= dungeons[current][1];
+    
+    for (int i = 0; i < dungeons.size(); i++) {
+        if (current == i) continue;
+        
+        if (check[i] == 0)
+            DFS(i, check, fatigue, count+1, dungeons);
+    }
+    check[current] = 0;
+    fatigue += dungeons[current][1];
+    return;
 }
 
 int solution(int k, vector<vector<int>> dungeons) {
-    int answer = -1;
-    int max = 0;
-    
-    sort(dungeons.begin(), dungeons.end(), cmp);
-    
-    while(next_permutation(dungeons.begin(), dungeons.end())) {
-        int fatigue = k;
-        int count = 0;
-        for (const auto& dungeon : dungeons) {
-            if(fatigue >= dungeon[0]) {
-                fatigue -= dungeon[1];
-                count++;
-            }
-            else break;
-        }
-        if (count > answer) answer = count;
+    vector<int> check(dungeons.size(), 0);
+    int fatigue = k;
+    for (int i = 0; i < dungeons.size(); i++) {
+        DFS(i, check, fatigue, 1, dungeons);
     }
+    
     return answer;
 }
