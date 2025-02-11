@@ -4,21 +4,23 @@
 using namespace std;
 
 string solution(string number, int k) {
+    string answer = "";
     vector<char> stack;
-    for (char num : number) {
-        while (!stack.empty() && stack.back() < num) {
+    for (char& c : number) {
+        while (!stack.empty() && stack.back() < c) {
             if (k > 0) {
                 stack.pop_back();
-                --k;
+                k--;
             }
-            else break;
+            else
+                break;
         }
-        stack.push_back(num);
+        stack.push_back(c);
     }
-    if (k > 0) {
-        for (int i = 0; i < k; i++) {
-            stack.pop_back();
-        }
+    while (k > 0) {
+        stack.pop_back();
+        k--;
     }
+    
     return string(stack.begin(), stack.end());
 }
